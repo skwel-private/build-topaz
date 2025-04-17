@@ -9,3 +9,7 @@ wget -O setup.sh https://raw.githubusercontent.com/skwel-private/build-topaz/ref
 ```bash
 wget -O git-setup.sh https://raw.githubusercontent.com/skwel-private/build-topaz/refs/heads/main/git-setup.sh && chmod +x git-setup.sh && bash git-setup.sh
 ```
+
+```bash
+mkdir -p .repo/local_manifests && cd .repo/local_manifests && wget -O topaz.xml https://raw.githubusercontent.com/skwel-private/build-topaz/refs/heads/main/topaz.xml
+```
