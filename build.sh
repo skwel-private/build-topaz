@@ -1,17 +1,7 @@
 #!/bin/bash
 
-echo "🧹 Removing old QCOM hardware directories..."
-rm -rf hardware/qcom-caf/common \
-       hardware/qcom-caf/msm8996 \
-       hardware/qcom-caf/msm8998 \
-       hardware/qcom-caf/sdm660 \
-       hardware/qcom-caf/msm8953 \
-       hardware/qcom-caf/sdm845 \
-       hardware/qcom-caf/sm8150 \
-       hardware/qcom-caf/sm8250 \
-       hardware/qcom-caf/sm8350 \
-       hardware/qcom-caf/sm8450 \
-       hardware/qcom-caf/sm8550
+echo "🧹 Removing old QCOM hardware directory..."
+rm -rf hardware/qcom-caf/common
 
 echo "📦 Cloning device trees..."
 git clone -b 15_qpr2_rising git@github.com:skwel-private/device_xiaomi_topaz.git device/xiaomi/topaz
