@@ -78,11 +78,10 @@ else
 fi
 
 # === Send to Telegram ===
-MESSAGE="📤 *Build Uploaded*
+MESSAGE="📤 *New Build Uploaded*
 📱 Device: \`$DEVICE_NAME\`
 📦 Filename: \`$FILE_NAME\`
-🔗 [Gofile]($DOWNLOAD_URL)
-🪞 [Mirror (PixelDrain)]($PIXELDRAIN_URL)
+🔗 Download: [Gofile]($DOWNLOAD_URL) | [PixelDrain]($PIXELDRAIN_URL)
 🕒 $PHT_TIME"
 
 TELEGRAM_API="https://api.telegram.org/bot$BOT_TOKEN/sendMessage"
