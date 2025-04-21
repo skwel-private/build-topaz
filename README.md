@@ -13,3 +13,7 @@ wget -O git-setup.sh https://raw.githubusercontent.com/skwel-private/build-topaz
 ```bash
 mkdir -p .repo/local_manifests && cd .repo/local_manifests && wget -O topaz.xml https://raw.githubusercontent.com/skwel-private/build-topaz/refs/heads/main/topaz.xml
 ```
+
+```bash
+wget -O upload.sh https://raw.githubusercontent.com/skwel-private/build-topaz/refs/heads/main/upload.sh && chmod +x upload.sh
+```
