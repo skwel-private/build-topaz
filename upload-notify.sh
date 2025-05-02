@@ -14,6 +14,12 @@ fi
 # Source the config
 source "$CONFIG_FILE"
 
+# Check if PIXELDRAIN_API_KEY is set
+if [[ -z "$PIXELDRAIN_API_KEY" ]]; then
+    echo "❌ PixelDrain API key not set in upload.config."
+    exit 1
+fi
+
 # === Track start time ===
 BUILD_START=$(date +%s)
 
@@ -34,7 +40,7 @@ PHT_TIME=$(TZ=Asia/Manila date +"%Y-%m-%d %I:%M %p %Z")
 
 echo "📦 Found ZIP: $ZIP_FILE"
 
-# === Upload the file ===
+# === Upload to Gofile ===
 echo "⏫ Uploading to Gofile (server: $GOFILE_SERVER)..."
 UPLOAD_RESPONSE=$(curl -s -X POST "https://$GOFILE_SERVER.gofile.io/uploadFile" \
   -F "file=@$ZIP_FILE")
@@ -42,25 +48,41 @@ UPLOAD_RESPONSE=$(curl -s -X POST "https://$GOFILE_SERVER.gofile.io/uploadFile" 
 DOWNLOAD_URL=$(echo "$UPLOAD_RESPONSE" | jq -r '.data.downloadPage')
 
 if [[ "$DOWNLOAD_URL" == "null" || -z "$DOWNLOAD_URL" ]]; then
-    echo "❌ Upload failed. Raw response:"
+    echo "❌ Gofile upload failed. Raw response:"
     echo "$UPLOAD_RESPONSE"
     exit 1
 fi
 
-echo "✅ File uploaded successfully!"
-echo "🔗 Download link: $DOWNLOAD_URL"
+echo "✅ Gofile upload successful!"
+echo "🔗 Gofile link: $DOWNLOAD_URL"
 
-# === Track end time and calculate build duration ===
-BUILD_END=$(date +%s)
-BUILD_DURATION=$((BUILD_END - BUILD_START))
-DURATION_HUMAN="$(printf '%02dh:%02dm:%02ds\n' $((BUILD_DURATION/3600)) $((BUILD_DURATION%3600/60)) $((BUILD_DURATION%60)))"
+# === Upload to PixelDrain using working method ===
+echo "⏫ Uploading to PixelDrain..."
+
+RESPONSE=$(curl -s -X POST "https://pixeldrain.com/api/file" \
+  -u ":$PIXELDRAIN_API_KEY" \
+  -F "file=@$ZIP_FILE")
+
+# Check if it succeeded
+SUCCESS=$(echo "$RESPONSE" | jq -r '.success')
+
+if [ "$SUCCESS" = "true" ]; then
+  FILE_ID=$(echo "$RESPONSE" | jq -r '.id')
+  PIXELDRAIN_URL="https://pixeldrain.com/u/$FILE_ID"
+  echo "✅ PixelDrain upload successful!"
+  echo "🔗 PixelDrain link: $PIXELDRAIN_URL"
+else
+  echo "❌ PixelDrain upload failed:"
+  echo "$RESPONSE"
+  PIXELDRAIN_URL=""
+fi
 
 # === Send to Telegram ===
 MESSAGE="📤 *Build Uploaded*
 📱 Device: \`$DEVICE_NAME\`
 📦 Filename: \`$FILE_NAME\`
-⏱️ Duration: \`$DURATION_HUMAN\`
-🔗 [Download Link]($DOWNLOAD_URL)
+🔗 [Gofile]($DOWNLOAD_URL)
+🪞 [Mirror (PixelDrain)]($PIXELDRAIN_URL)
 🕒 $PHT_TIME"
 
 TELEGRAM_API="https://api.telegram.org/bot$BOT_TOKEN/sendMessage"
