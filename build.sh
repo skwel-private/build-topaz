@@ -23,7 +23,7 @@ rm -rf hardware/qcom-caf/common
 
 echo "📦 Cloning device trees..."
 git clone -b "$DEVICE_BRANCH" git@github.com:skwel-private/device_xiaomi_topaz.git device/xiaomi/topaz
-git clone -b fifteen git@github.com:skwel-stuffs/device_xiaomi_topaz-kernel.git device/xiaomi/topaz-kernel
+git clone -b lineage-22.2 git@github.com:skwel-stuffs/device_xiaomi_topaz-kernel.git device/xiaomi/topaz-kernel
 git clone -b fifteen git@github.com:skwel-stuffs/android_device_xiaomi_sepolicy.git device/xiaomi/sepolicy
 git clone -b lineage-22.2-micam git@github.com:skwel-private/device_xiaomi_miuicamera-topaz.git device/xiaomi/miuicamera-topaz
 
