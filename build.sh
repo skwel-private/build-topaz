@@ -28,7 +28,7 @@ git clone -b fifteen https://github.com/skwel-stuffs/android_device_xiaomi_sepol
 git clone -b lineage-22.2-micam https://github.com/skwel-private/device_xiaomi_miuicamera-topaz.git device/xiaomi/miuicamera-topaz
 
 echo "📦 Cloning vendor trees..."
-git clone -b 15_qpr2 https://github.com/skwel-privatevendor_xiaomi_topaz.git vendor/xiaomi/topaz
+git clone -b 15_qpr2 https://github.com/skwel-private/vendor_xiaomi_topaz.git vendor/xiaomi/topaz
 git clone -b v1.2 https://github.com/skwel-private/vendor_xiaomi_dolby-atmos.git vendor/xiaomi/dolby-atmos
 git clone -b lineage-22.2-micam https://gitea.com/skwel/new_vendor_xiaomi_miuicamera-topaz.git vendor/xiaomi/miuicamera-topaz
 
